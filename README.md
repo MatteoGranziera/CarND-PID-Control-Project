@@ -31,7 +31,7 @@ With this algorithm it's easier to tuning the PID parameters but I have to be ca
   - Starting parameters: [0.1, 0.001, 2]
   - Tuned parameters: [0.133233, 0.001331, 2.80441]
 
-
+[First tuning run video](./video/run1.mp4)
 
 - Second run:
 
@@ -39,6 +39,8 @@ With this algorithm it's easier to tuning the PID parameters but I have to be ca
   - Maximum iterations: 100
   - Starting parameters: [0.133233, 0.001331, 2.80441]
   - Tuned parameters: [0.172805, 0.00130463, 2.85638]
+
+[Final run after tuning](./video/final.mp4)
 
 ## Improvements
 
