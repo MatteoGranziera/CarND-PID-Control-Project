@@ -19,7 +19,7 @@ Each component has an hyperparameter defined as `tau`.
 ## Hyperparameters tuning
 
 In first place i tried to tuning manually in order to reach at least the bridge, even if the oscillations go out of the road and I've found the following parameters Kp 0.1, Ki 0.001, Kd 2.
-After that I've implemented the twiddle algorithm by calculating the error whin the sum of the square cte (to avoid negative numbers) in more steps (PID.cpp:56-119).
+After that I've implemented the twiddle algorithm by calculating the error whin the sum of the square cte (to avoid negative numbers) in more steps (PID.cpp:56-119). I've followed the basic idea of [Ashish Raste](https://github.com/ashishraste) in its [implementation](https://github.com/ashishraste/PID-Control).
 The algorithm starts only by call the `InitTuning` function and ends automatically when reach the maximum steps configured.
 
 With this algorithm it's easier to tuning the PID parameters but I have to be careful and starts with short runs to not make the car going out of the track and after increase the steps included in the error calculation to avoid biases introduced by the straight parts of the track.
