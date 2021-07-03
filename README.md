@@ -1,30 +1,71 @@
 # CarND-Controls-PID
+
 Self-Driving Car Engineer Nanodegree Program
 
 ---
 
+## PID Controller
+
+The PID controller make a self driving car steering smoothly and it's based on three components.
+
+- The P (proportional) component apply a proportional steering angle correction based on the cross-track error (cte), higher is the cte and higher (and inverse) is the steering angle applied by the P component;
+
+- The D (differential) component apply a differential correction based the actual cte and the previous, this component smooth the overshooting effect caused by the P component;
+
+- The I (integral) component that complete the PID controller by apply a correction to the possible steering bias introduced by the D component.
+
+Each component has an hyperparameter defined as `tau`.
+
+## Hyperparameters tuning
+
+In first place i tried to tuning manually in order to reach at least the bridge, even if the oscillations go out of the road and I've found the following parameters Kp 0.1, Ki 0.001, Kd 2.
+After that I've implemented the twiddle algorithm by calculating the error whin the sum of the square cte (to avoid negative numbers) in more steps (PID.cpp:56-119).
+The algorithm starts only by call the `InitTuning` function and ends automatically when reach the maximum steps configured.
+
+With this algorithm it's easier to tuning the PID parameters but I have to be careful and starts with short runs to not make the car going out of the track and after increase the steps included in the error calculation to avoid biases introduced by the straight parts of the track.
+
+- First run:
+
+  - Steps per iteration: 15
+  - Maximum iterations: 100
+  - Starting parameters: [0.1, 0.001, 2]
+  - Tuned parameters: [0.133233, 0.001331, 2.80441]
+
+
+
+- Second run:
+
+  - Steps per iteration: 2000
+  - Maximum iterations: 100
+  - Starting parameters: [0.133233, 0.001331, 2.80441]
+  - Tuned parameters: [0.172805, 0.00130463, 2.85638]
+
+## Improvements
+
+A possible improvement is use the pid control to tune the throttle of the car to reduce the oscillations during a curve.
+
 ## Dependencies
 
-* cmake >= 3.5
- * All OSes: [click here for installation instructions](https://cmake.org/install/)
-* make >= 4.1(mac, linux), 3.81(Windows)
-  * Linux: make is installed by default on most Linux distros
-  * Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
-  * Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
-* gcc/g++ >= 5.4
-  * Linux: gcc / g++ is installed by default on most Linux distros
-  * Mac: same deal as make - [install Xcode command line tools]((https://developer.apple.com/xcode/features/)
-  * Windows: recommend using [MinGW](http://www.mingw.org/)
-* [uWebSockets](https://github.com/uWebSockets/uWebSockets)
-  * Run either `./install-mac.sh` or `./install-ubuntu.sh`.
-  * If you install from source, checkout to commit `e94b6e1`, i.e.
+- cmake >= 3.5
+- All OSes: [click here for installation instructions](https://cmake.org/install/)
+- make >= 4.1(mac, linux), 3.81(Windows)
+  - Linux: make is installed by default on most Linux distros
+  - Mac: [install Xcode command line tools to get make](https://developer.apple.com/xcode/features/)
+  - Windows: [Click here for installation instructions](http://gnuwin32.sourceforge.net/packages/make.htm)
+- gcc/g++ >= 5.4
+  - Linux: gcc / g++ is installed by default on most Linux distros
+  - Mac: same deal as make - [install Xcode command line tools]((https://developer.apple.com/xcode/features/)
+  - Windows: recommend using [MinGW](http://www.mingw.org/)
+- [uWebSockets](https://github.com/uWebSockets/uWebSockets)
+  - Run either `./install-mac.sh` or `./install-ubuntu.sh`.
+  - If you install from source, checkout to commit `e94b6e1`, i.e.
     ```
-    git clone https://github.com/uWebSockets/uWebSockets 
+    git clone https://github.com/uWebSockets/uWebSockets
     cd uWebSockets
     git checkout e94b6e1
     ```
     Some function signatures have changed in v0.14.x. See [this PR](https://github.com/udacity/CarND-MPC-Project/pull/3) for more details.
-* Simulator. You can download these from the [project intro page](https://github.com/udacity/self-driving-car-sim/releases) in the classroom.
+- Simulator. You can download these from the [project intro page](https://github.com/udacity/self-driving-car-sim/releases) in the classroom.
 
 Fellow students have put together a guide to Windows set-up for the project [here](https://s3-us-west-1.amazonaws.com/udacity-selfdrivingcar/files/Kidnapped_Vehicle_Windows_Setup.pdf) if the environment you have set up for the Sensor Fusion projects does not work for this project. There's also an experimental patch for windows in this [PR](https://github.com/udacity/CarND-PID-Control-Project/pull/3).
 
@@ -33,7 +74,7 @@ Fellow students have put together a guide to Windows set-up for the project [her
 1. Clone this repo.
 2. Make a build directory: `mkdir build && cd build`
 3. Compile: `cmake .. && make`
-4. Run it: `./pid`. 
+4. Run it: `./pid`.
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
 
@@ -43,8 +84,8 @@ We've purposefully kept editor configuration files out of this repo in order to
 keep it as simple and environment agnostic as possible. However, we recommend
 using the following settings:
 
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
+- indent using spaces
+- set tab width to 2 spaces (keeps the matrices in source code aligned)
 
 ## Code Style
 
@@ -61,7 +102,7 @@ for instructions and the project rubric.
 
 ## Hints!
 
-* You don't have to follow this directory structure, but if you do, your work
+- You don't have to follow this directory structure, but if you do, your work
   will span all of the .cpp files here. Keep an eye out for TODOs.
 
 ## Call for IDE Profiles Pull Requests
@@ -78,8 +119,8 @@ appreciate, we'd love to have you add the requisite profile files and
 instructions to ide_profiles/. For example if you wanted to add a VS Code
 profile, you'd add:
 
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
+- /ide_profiles/vscode/.vscode
+- /ide_profiles/vscode/README.md
 
 The README should explain what the profile does, how to take advantage of it,
 and how to install it.
@@ -94,5 +135,5 @@ One last note here: regardless of the IDE used, every submitted project must
 still be compilable with cmake and make./
 
 ## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
 
+A well written README file can enhance your project and portfolio. Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
